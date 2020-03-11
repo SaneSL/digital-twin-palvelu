@@ -17,11 +17,6 @@ db = SQLAlchemy(app)
 # Init marsmallow
 ma = Marshmallow(app)
 
-@app.route('/', methods=['GET'])
-def get():
-    return jsonify({'msg': 'Moro'})
-
-
 # Run Server
 if __name__ == '__main__':
     app.run(debug=True)
