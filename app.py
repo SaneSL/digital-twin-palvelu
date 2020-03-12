@@ -8,6 +8,7 @@ from flask_marshmallow import Marshmallow
 # Init app
 app = Flask(__name__)
 
+# Get config
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 with open('config.json') as json_data_file:
     cfg = json.load(json_data_file)
@@ -26,4 +27,6 @@ ma = Marshmallow(app)
 
 # Run Server
 if __name__ == '__main__':
+    from api import *
+
     app.run(debug=True)
