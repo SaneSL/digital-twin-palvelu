@@ -16,8 +16,8 @@ class ResultSchema(ma.Schema):
 
 
 # Init schema
-customerSchema = CustomerSchema()
-customersSchema = CustomerSchema(many=True)
+customer_Schema = CustomerSchema()
+customers_Schema = CustomerSchema(many=True)
 
 resultSchema = ResultSchema()
 resultsSchema = ResultSchema(many=True)
