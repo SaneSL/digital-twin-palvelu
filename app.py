@@ -1,12 +1,20 @@
+import os
+import json
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
+
 # Init app
 app = Flask(__name__)
 
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+with open('config.json') as json_data_file:
+    cfg = json.load(json_data_file)
+
 # Database
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://@localhost/kandi"
+connString = "postgresql+psycopg2://{}:{}@{}/{}".format(cfg["pg_user"], cfg["pg_pw"], cfg["pg_host"], cfg["pg_db"])
+app.config['SQLALCHEMY_DATABASE_URI'] = connString
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
  

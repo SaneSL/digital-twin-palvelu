@@ -22,5 +22,6 @@ venv.bak/
 instance/
 .webassets-cache
 
-# Test
+# Other
 test.py
+config.json

@@ -17,8 +17,8 @@ class Customer(db.Model):
     results = db.relationship('Result', backref='customer')
 
     def __init__(self, name, username, password):
+        self.name = name
         self.username = username
-        self.name = name,
         self.password = password
 
 
@@ -33,8 +33,7 @@ class Result(db.Model):
 
 
 if __name__ == "__main__":
-
     # Run this file directly to create the database tables
-    print "Creating database tables..."
+    print ("Creating database tables...")
     db.create_all()
-    print "Done!
+    print ("Done!")
