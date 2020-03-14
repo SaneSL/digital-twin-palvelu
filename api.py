@@ -10,32 +10,49 @@ import jwt
 
 def token_required(func):
     @wraps(func)
-    def decorated_functin(*args, **kwargs):
+    def wrapper(*args, **kwargs):
         token = request.json['token']
         
         if token is None:
             body = {'Error': 'Token is missing'}
-            return 
+            return jsonify(body), 401
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
         except:
-            return
+            body = {'Error': 'Token is invalid'}
+            return jsonify(body), 403
+
+        return func(*args, **kwargs)
+    return decorated_function(*args, **kwargs)
 
 
-# Testing
-@app.route('/', methods=['GET'])
-def get():
-    if request.is_json is False:
-        print('Not JSON type, return error')
-    return jsonify({'msg': 'Moro'})
+def accept(mimetype='application/json'):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            print(request.mimetype)
+            print(mimetype)
+            if request.mimetype != mimetype:
+                value = 'Invalid data type, {} needs to be used'.format(mimetype)
+                body = {'Error': value}
+                return jsonify(body), 406
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
+# Test
+@app.route('/test', methods=['POST'])
+@accept()
+def testi():
+    body = {'succ': 'ess'}
+    return jsonify(body)
 
 
 # Register
 @app.route('/register', methods=['POST'])
 def register():
-    if request.is_json is False:
-        print('Not JSON type, return error')
     name = request.json['name']
     username = request.json['username']
     password = request.json['password']
@@ -51,9 +68,6 @@ def register():
 # Post analysis
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    if request.is_json is False:
-        print('Not JSON type, return error')
-
     username = request.json['username']
     password = request.json['password']
 
@@ -71,11 +85,7 @@ def get_analysis(module_id):
         module_id = int(module_id)
     except ValueError:
         body = {'Error': 'Invalid parameter'}
-        resp = make_response(r, 400)
-        return resp
-
-    username = request.json['username']
-    password = request.json['password']
+        return jsonify(body), 400
 
     user = Customer.query.filter(username=username).first()
     if user.password == password:
