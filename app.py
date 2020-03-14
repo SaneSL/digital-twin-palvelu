@@ -18,6 +18,7 @@ connString = "postgresql+psycopg2://{}:{}@{}/{}".format(cfg["pg_user"], cfg["pg_
 app.config['SQLALCHEMY_DATABASE_URI'] = connString
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = 'ghpahfgowfg'
  
 # Init db
 db = SQLAlchemy(app)

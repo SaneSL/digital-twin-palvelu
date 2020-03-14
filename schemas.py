@@ -7,6 +7,7 @@ class CustomerSchema(ma.Schema):
     id = fields.Integer(required=True)
     name = fields.Str(required=True)
     username = fields.Str(required=True)
+    sub_end = fields.Date
     exclude = ('password')
 
 class ResultSchema(ma.Schema):
