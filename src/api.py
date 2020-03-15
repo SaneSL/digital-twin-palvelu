@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, Response, make_response
 from app import app
 from uuid import uuid4
 from utils.checks import *
+from utils.token import create_token
 from schemas import *
 from models import *
 import jwt, datetime
@@ -10,10 +11,6 @@ import jwt, datetime
 # Min/max lenght for password and username
 # Catch database errors
 
-
-def create_token(id):
-    token = jwt.encode({'id': id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-    return token
 
 # Test
 @app.route('/test', methods=['POST'])
@@ -49,6 +46,25 @@ def register():
     return customer_Schema.jsonify(data)
 
 # Get new token
+@app.route('/token', methods=['POST'])
+@accept()
+def get_token():
+    username = request.json['username']
+    password = request.json['password']
+
+    if None in (username, password):
+        body = {"Error": "Missing arguments"}
+        return jsonify(body), 403
+
+    
+    user = Customer.query.filter(Customer.username==username).first()
+
+    if user.password == password:
+
+        print('OHA SE')
+
+    return jsonify({'y': 'd'}), 200
+    
 
 
 # Post analysis
