@@ -1,11 +1,14 @@
 from flask import Flask, jsonify, request, Response, make_response
 from app import app
 from functools import wraps
+from uuid import uuid4
+import datetime
 from schemas import *
 from models import *
 import jwt
 
-# Check for json type in all routes
+# TODO:
+# Min/max lenght for password and username
 
 
 def token_required(func):
@@ -31,8 +34,6 @@ def accept(mimetype='application/json'):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            print(request.mimetype)
-            print(mimetype)
             if request.mimetype != mimetype:
                 value = 'Invalid data type, {} needs to be used'.format(mimetype)
                 body = {'Error': value}
@@ -41,6 +42,10 @@ def accept(mimetype='application/json'):
         return wrapper
     return decorator
 
+
+def create_token(id):
+    token = jwt.encode({'id': id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+    return token
 
 # Test
 @app.route('/test', methods=['POST'])
@@ -52,25 +57,36 @@ def testi():
 
 # Register
 @app.route('/register', methods=['POST'])
+@accept()
 def register():
     name = request.json['name']
     username = request.json['username']
     password = request.json['password']
 
-    new_Customer = Customer(name=name, username=username, password=password)
+    if None in (name, username, password):
+        body = {"Error": "Missing arguments"}
+        return jsonify(body), 403
 
+    # Use string UUID to avoid conversion problems
+    id = str(uuid4())
+
+    new_Customer = Customer(id, name, username, password)
     db.session.add(new_Customer)
     db.session.commit()
 
-    return customer_Schema.jsonify(new_Customer)
+    token = create_token(id)
+
+    data = {'id': id, 'name': name, 'username': username, 'token':token}
+
+    return customer_Schema.jsonify(data)
+
+# Get new token
 
 
 # Post analysis
 @app.route('/analyze', methods=['POST'])
+@accept()
 def analyze():
-    username = request.json['username']
-    password = request.json['password']
-
     user = Customer.query.filter(username=username).first()
     if user.password == password:
         return
@@ -93,7 +109,7 @@ def get_analysis(module_id):
 
     user_id = user.id
 
-    results = Result.query.filter(customer_id=user_id, module_id=module_id).first()
+    analysis = Analysis.query.filter(customer_id=user_id, module_id=module_id).first()
 
 
-
+# Get all analyses
