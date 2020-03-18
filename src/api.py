@@ -16,8 +16,9 @@ import jwt, datetime
 @app.route('/test', methods=['POST'])
 @accept()
 def testi():
-    body = {'succ': 'ess'}
-    return jsonify(body)
+    """ payload = {'yks': '111', 'kaks': '222'}
+    raise DatabaseError('Test', payload=payload) """
+    pass
 
 
 # Register
@@ -59,9 +60,10 @@ def get_token():
     
     user = Customer.query.filter(Customer.username==username).first()
 
-    if user.password == password:
-
-        print('OHA SE')
+    if user.password != password:
+        return
+        # Authentication failed
+        
 
     return jsonify({'y': 'd'}), 200
     
