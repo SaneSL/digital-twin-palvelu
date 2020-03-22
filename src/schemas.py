@@ -13,7 +13,7 @@ class CustomerSchema(ma.Schema):
         additional = ('token', )
 
 
-class ResultSchema(ma.Schema):
+class AnalysisSchema(ma.Schema):
     id = fields.Integer()
     results = fields.Raw()
     customer_id = fields.UUID()
@@ -23,5 +23,5 @@ class ResultSchema(ma.Schema):
 customer_Schema = CustomerSchema()
 customers_Schema = CustomerSchema(many=True)
 
-resultSchema = ResultSchema()
-resultsSchema = ResultSchema(many=True)
+analysis_Schema = AnalysisSchema()
+analyses_Schema = AnalysisSchema(many=True)
