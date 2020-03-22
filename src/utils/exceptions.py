@@ -18,3 +18,14 @@ class DatabaseError(CustomException):
     message = "Database error"
     def __init__(self, message=message, status_code=500):
         super().__init__(message, status_code)
+
+class ApiAuthenticationError(CustomException):
+    message = "Authentication error"
+    def __init__(self, message=message, status_code=401):
+        super().__init__(message, status_code)
+
+
+class ArgMissingError(CustomException):
+    message = "Missing argument(s)"
+    def __init__(self, message=message, status_code=403):
+        super().__init__(message, status_code)

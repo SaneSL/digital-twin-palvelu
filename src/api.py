@@ -15,6 +15,8 @@ import jwt, datetime
 
 
 @app.errorhandler(DatabaseError)
+@app.errorhandler(ApiAuthenticationError)
+@app.errorhandler(ArgMissingError)
 def handle_it(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
@@ -41,8 +43,7 @@ def register():
     password = request.json['password']
 
     if None in (name, username, password):
-        body = {"Error": "Missing arguments"}
-        return jsonify(body), 403
+        raise ArgMissingError
 
     # Use string UUID to avoid conversion problems
     id = str(uuid4())
@@ -65,15 +66,13 @@ def get_token():
     password = request.json['password']
 
     if None in (username, password):
-        body = {"Error": "Missing arguments"}
-        return jsonify(body), 403
+        raise ArgMissingError
 
     
     user = Customer.query.filter(Customer.username==username).first()
 
     if user.password != password:
-        body = {"Error": "Authentication failed"}
-        return jsonify(body), 401
+        raise ApiAuthenticationError
         
     token = create_token(user.id)
     body = {'Token': token}
@@ -88,8 +87,7 @@ def get_token():
 def analyze():
     user = Customer.query.filter(username=username).first()
     if user.password != password:
-        body = {"Error": "Authentication failed"}
-        return jsonify(body), 401
+        raise ApiAuthenticationError
 
     # Do the module stuff here and return
 
@@ -100,13 +98,11 @@ def get_analysis(module_id):
     try:
         module_id = int(module_id)
     except ValueError:
-        body = {'Error': 'Invalid parameter'}
-        return jsonify(body), 400
+        raise ArgMissingError
 
     user = Customer.query.filter(username=username).first()
     if user.password != password:
-        body = {"Error": "Authentication failed"}
-        return jsonify(body), 401
+        raise ApiAuthenticationError
 
     user_id = user.id
 
