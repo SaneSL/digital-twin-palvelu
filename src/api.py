@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, request, Response, make_response
+from flask import Flask, jsonify, request, Response, make_response, render_template
 from app import app
 from uuid import uuid4
 from utils.checks import *
+from utils.exceptions import *
 from utils.token import create_token
 from schemas import *
 from models import *
@@ -12,13 +13,23 @@ import jwt, datetime
 # Catch database errors
 
 
+
+@app.errorhandler(DatabaseError)
+def handle_it(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
 # Test
-@app.route('/test', methods=['POST'])
-@accept()
+@app.route('/')
 def testi():
-    """ payload = {'yks': '111', 'kaks': '222'}
-    raise DatabaseError('Test', payload=payload) """
-    pass
+    raise DatabaseError
+
+
+# Test 2
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 
 # Register
@@ -61,11 +72,13 @@ def get_token():
     user = Customer.query.filter(Customer.username==username).first()
 
     if user.password != password:
-        return
-        # Authentication failed
+        body = {"Error": "Authentication failed"}
+        return jsonify(body), 401
         
+    token = create_token(user.id)
+    body = {'Token': token}
 
-    return jsonify({'y': 'd'}), 200
+    return jsonify(body), 200
     
 
 
@@ -74,8 +87,9 @@ def get_token():
 @accept()
 def analyze():
     user = Customer.query.filter(username=username).first()
-    if user.password == password:
-        return
+    if user.password != password:
+        body = {"Error": "Authentication failed"}
+        return jsonify(body), 401
 
     # Do the module stuff here and return
 
@@ -90,8 +104,9 @@ def get_analysis(module_id):
         return jsonify(body), 400
 
     user = Customer.query.filter(username=username).first()
-    if user.password == password:
-        return
+    if user.password != password:
+        body = {"Error": "Authentication failed"}
+        return jsonify(body), 401
 
     user_id = user.id
 
