@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <form method="POST" action="" style="width: 320px;height: 300px;margin-right: 430px;margin-left: 430px;margin-top: 150px;background-color: #c1c1c1;">
+        {{ form.hidden_tag()}}
         <div class="form-group">
             {{ form.username.label(class="form-control-label") }}
             {{ form.username(class="form-control form-control-lg") }}

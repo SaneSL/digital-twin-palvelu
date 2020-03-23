@@ -59,7 +59,7 @@ def get_token():
         raise ArgMissingError
 
     
-    user = Customer.query.filter(Customer.username==username).first()
+    user = Customer.query.filter_by(username=username).first()
 
     if user.password != password:
         raise ApiAuthenticationError
@@ -75,7 +75,7 @@ def get_token():
 @api.route('/analyze', methods=['POST'])
 @accept()
 def analyze():
-    user = Customer.query.filter(username=username).first()
+    user = Customer.query.filter_by(username=username).first()
     if user.password != password:
         raise ApiAuthenticationError
 
