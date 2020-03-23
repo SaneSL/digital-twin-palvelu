@@ -1,7 +1,7 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import fields
-from app import ma
 
+ma = Marshmallow()
 
 class CustomerSchema(ma.Schema):
     id = fields.UUID(required=True)

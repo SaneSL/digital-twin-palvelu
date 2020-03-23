@@ -3,10 +3,18 @@ import json
 from flask import Flask, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from models import db
+from schemas import ma
+
+from home import home
+from api import api
+
 
 
 # Init app
 app = Flask(__name__)
+app.register_blueprint(home)
+
 
 # Get config
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -21,13 +29,11 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = 'ghpahfgowfg'
  
 # Init db
-db = SQLAlchemy(app)
+db.init_app(app)
 
 # Init marsmallow
-ma = Marshmallow(app)
+ma.init_app(app)
 
 # Run Server
 if __name__ == '__main__':
-    from api import *
-
     app.run(debug=True)

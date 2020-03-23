@@ -1,11 +1,15 @@
-from flask import Flask, jsonify, request, render_template
-from app import app
+from flask import Flask, jsonify, request, render_template, Blueprint
 from uuid import uuid4
 from utils.checks import *
 from utils.exceptions import *
+from utils.forms import *
 from utils.token import create_token
-from schemas import *
+# from schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
+import schemas
 from models import *
+
+
+api = Blueprint('api', __name__, static_folder="static", template_folder="templates")
 
 # TODO:
 # Min/max lenght for password and username
@@ -13,28 +17,16 @@ from models import *
 
 
 
-@app.errorhandler(DatabaseError)
-@app.errorhandler(ApiAuthenticationError)
-@app.errorhandler(ArgMissingError)
+@api.errorhandler(DatabaseError)
+@api.errorhandler(ApiAuthenticationError)
+@api.errorhandler(ArgMissingError)
 def handle_error(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
 
-# Test
-@app.route('/')
-def testi():
-    return render_template('home.html')
-
-
-# Test 2
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-
 # Register
-@app.route('/register', methods=['POST'])
+@api.route('/register', methods=['POST'])
 @accept()
 def register():
     name = request.json['name']
@@ -58,7 +50,7 @@ def register():
     return customer_Schema.jsonify(data)
 
 # Get new token
-@app.route('/token', methods=['POST'])
+@api.route('/token', methods=['POST'])
 @accept()
 def get_token():
     username = request.json['username']
@@ -81,7 +73,7 @@ def get_token():
 
 
 # Post analysis
-@app.route('/analyze', methods=['POST'])
+@api.route('/analyze', methods=['POST'])
 @accept()
 def analyze():
     user = Customer.query.filter(username=username).first()
@@ -92,7 +84,7 @@ def analyze():
 
 
 # Get analysis
-@app.route('/analysis/<id>', methods=['GET'])
+@api.route('/analysis/<id>', methods=['GET'])
 def get_analysis(id):
     try:
         id = int(id)
@@ -110,7 +102,7 @@ def get_analysis(id):
 
 
 # Get all analyses
-@app.route('/analyses', methods=['GET'])
+@api.route('/analyses', methods=['GET'])
 def get_analyses():
     user = Customer.query.filter(username=username).first()
     if user.password != password:

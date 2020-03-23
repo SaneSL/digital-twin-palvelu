@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import UUIDType, PasswordType, JSONType, force_auto_coercion
-from app import db
 
+db = SQLAlchemy()
 
 force_auto_coercion()
 
