@@ -4,8 +4,7 @@ from utils.checks import *
 from utils.exceptions import *
 from utils.forms import *
 from utils.token import create_token
-# from schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
-import schemas
+from schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
 from models import *
 
 
