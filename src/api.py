@@ -24,7 +24,7 @@ def handle_error(error):
 # Test
 @app.route('/')
 def testi():
-    raise DatabaseError
+    return render_template('home.html')
 
 
 # Test 2
