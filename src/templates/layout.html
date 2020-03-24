@@ -12,13 +12,13 @@
 
 <body style="background-color: rgb(137,135,135);">
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="background-color: rgb(198,188,188);">
-        <div class="container"><a class="navbar-brand" href="#">Digital Twin</a><a href="#">Home</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand" href="#">Digital Twin</a><a href="{{ url_for('home.get_home') }}">Home</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div
                 class="collapse navbar-collapse" id="navcol-1">
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label for="search-field"></label></div>
                 </form>
-        </div><a class="btn btn-light action-button" role="button" href="#">Login</a></div>
+        </div><a class="btn btn-light action-button" role="button" href="{{ url_for('home.login') }}" style="background-color: rgb(160,47,47);">Login</a></div>
     </nav>
     {% block content %}{% endblock %}
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>

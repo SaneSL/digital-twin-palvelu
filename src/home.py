@@ -11,10 +11,11 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        print(password)
 
         user = Customer.query.filter_by(username=username).first()
-        print(user.username)
+        if user is None:
+            return jsonify({"Error": "Error"}), 400
+
         if user.password != password:
             return jsonify({"Error": "Error"}), 400
         else:
