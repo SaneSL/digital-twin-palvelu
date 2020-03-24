@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request, render_template, Blueprint, flash, redirect, url_for
+from flask_login import login_user, current_user, logout_user
 from utils.forms import *
 from models import *
+
 
 home = Blueprint('home', __name__, static_folder="static", template_folder="templates")
 
@@ -19,6 +21,7 @@ def login():
         if user.password != password:
             return jsonify({"Error": "Error"}), 400
         else:
+            login_user(user, remember=True)
             return redirect(url_for('home.get_home'))
 
     return render_template('login.html', form=form)
@@ -28,3 +31,8 @@ def login():
 @home.route('/home')
 def get_home():
     return render_template('layout.html')
+
+@home.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home.get_home'))

@@ -1,12 +1,18 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import UUIDType, PasswordType, JSONType, force_auto_coercion
+from login_manager import loginManager
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
 force_auto_coercion()
 
+@loginManager.user_loader
+def load_user(user_id):
+    return Customer.query.get(user_id)
 
-class Customer(db.Model):
+
+class Customer(db.Model, UserMixin):
     id = db.Column(db.Text, primary_key=True)
     name = db.Column(db.String, nullable=False)
     username = db.Column(db.String(16), unique=True, nullable=False)

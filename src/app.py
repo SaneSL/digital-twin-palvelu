@@ -8,6 +8,7 @@ from schemas import ma
 
 from home import home
 from api import api
+from login_manager import loginManager
 
 
 
@@ -34,6 +35,9 @@ db.init_app(app)
 
 # Init marsmallow
 ma.init_app(app)
+
+# Init login manager
+loginManager.init_app(app)
 
 # Run Server
 if __name__ == '__main__':
