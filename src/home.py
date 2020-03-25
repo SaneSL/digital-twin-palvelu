@@ -22,6 +22,7 @@ def login():
             return jsonify({"Error": "Error"}), 400
         else:
             login_user(user, remember=True)
+            flash('Logged in!', 'success')
             return redirect(url_for('home.get_home'))
 
     return render_template('login.html', form=form)
