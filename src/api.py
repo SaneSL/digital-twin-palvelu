@@ -90,24 +90,28 @@ def get_analysis(id):
     except ValueError:
         raise ArgMissingError
 
-    user = Customer.query.filter(username=username).first()
+    user = Customer.query.filter_by(username=username).first()
     if user.password != password:
         raise ApiAuthenticationError
 
     user_id = user.id
 
-    analysis = Analysis.query.filter(customer_id=user_id, id=id).first()
+    analysis = Analysis.query.filter_by(customer_id=user_id, id=id).first()
     return analysis_Schema.jsonify(analysis)
 
 
 # Get all analyses
 @api.route('/analyses', methods=['GET'])
 def get_analyses():
-    user = Customer.query.filter(username=username).first()
+    user = Customer.query.filter_by(username=username).first()
     if user.password != password:
         raise ApiAuthenticationError
 
     user_id = user.id
 
-    analysis = Analysis.query.filter(customer_id=user_id).all()
+    analysis = Analysis.query.filter_by(customer_id=user_id).all()
     return analyses_Schema.jsonify(analysis)
+
+@api.route('/')
+def draw_api():
+    return jsonify({"Page": "Here"})

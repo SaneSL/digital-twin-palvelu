@@ -28,7 +28,7 @@ def login():
     return render_template('login.html', form=form)
 
 
-# Test 2
+@home.route('/')
 @home.route('/home')
 def get_home():
     return render_template('layout.html')

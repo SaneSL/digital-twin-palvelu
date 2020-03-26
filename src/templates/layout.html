@@ -14,12 +14,21 @@
   <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="background-color: rgb(198,188,188);">
     <div class="container">
       <a class="navbar-brand" href="#">Digital Twin</a>
-      <a href="{{ url_for('home.get_home') }}">Home</a>
       <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link"" href="{{ url_for('home.get_home') }}">Home</a>
+          </li>
+          {% if current_user.is_authenticated %}
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" href="#">API</a>
+          </li>
+          {% endif %}
+        </ul>
         <form class="form-inline mr-auto" target="_self">
           <div class="form-group">
             <label for="search-field"></label>
