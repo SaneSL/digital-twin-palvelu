@@ -3,13 +3,11 @@ import json
 from flask import Flask, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from models import db
-from schemas import ma
-
-from home import home
-from api import api
-from login_manager import loginManager
-
+from utils.models import db
+from utils.schemas import ma
+from utils.login_manager import loginManager
+from views.home import home
+from views.api import api
 
 
 # Init app
@@ -19,7 +17,6 @@ app.register_blueprint(api, url_prefix='/api')
 
 
 # Get config
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
 with open('config.json') as json_data_file:
     cfg = json.load(json_data_file)
 

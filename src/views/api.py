@@ -4,8 +4,8 @@ from utils.checks import *
 from utils.exceptions import *
 from utils.forms import *
 from utils.token import create_token
-from schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
-from models import *
+from utils.schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
+from utils.models import *
 
 
 api = Blueprint('api', __name__, static_folder="static", template_folder="templates")

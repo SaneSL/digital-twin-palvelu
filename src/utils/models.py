@@ -1,7 +1,11 @@
+import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import UUIDType, PasswordType, JSONType, force_auto_coercion
-from login_manager import loginManager
+# from login_manager import loginManager
 from flask_login import UserMixin
+from utils.login_manager import loginManager
+
+print(os.getcwd())
 
 db = SQLAlchemy()
 
