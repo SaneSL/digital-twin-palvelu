@@ -65,9 +65,9 @@ def get_token():
         raise ApiAuthenticationError
         
     token = create_token(user.id)
-    body = {'Token': token}
+    body = {'token': token}
 
-    return jsonify(body), 200
+    return jsonify(body)
     
 
 
@@ -83,6 +83,7 @@ def analyze():
 
 
 # Get analysis
+@token_required
 @api.route('/analysis/<id>', methods=['GET'])
 def get_analysis(id):
     try:
@@ -115,3 +116,9 @@ def get_analyses():
 @api.route('/')
 def draw_api():
     return jsonify({"Page": "Here"})
+
+
+@api.route('/test')
+@token_required
+def testeri():
+    return jsonify({'Done': 'Done'})
