@@ -13,7 +13,7 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 # TODO:
 # Min/max lenght for password and username
 # Catch database errors
-
+# Maybe add token blacklist
 
 
 @api.errorhandler(DatabaseError)
@@ -23,6 +23,7 @@ def handle_error(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
 
 # Register
 @api.route('/register', methods=['POST'])
@@ -48,6 +49,7 @@ def register():
 
     return customer_Schema.jsonify(data)
 
+
 # Get new token
 @api.route('/token', methods=['POST'])
 @accept()
@@ -70,7 +72,6 @@ def get_token():
     return jsonify(body)
     
 
-
 # Post analysis
 @api.route('/analyze', methods=['POST'])
 @accept()
@@ -83,35 +84,25 @@ def analyze():
 
 
 # Get analysis
-@token_required
 @api.route('/analysis/<id>', methods=['GET'])
-def get_analysis(id):
+@token_required
+def get_analysis(user_id, id):
     try:
         id = int(id)
     except ValueError:
         raise ArgMissingError
 
-    user = Customer.query.filter_by(username=username).first()
-    if user.password != password:
-        raise ApiAuthenticationError
-
-    user_id = user.id
-
-    analysis = Analysis.query.filter_by(customer_id=user_id, id=id).first()
+    analysis = Analysis.query.filter_by(id=id, customer_id=user_id).first()
     return analysis_Schema.jsonify(analysis)
 
 
 # Get all analyses
 @api.route('/analyses', methods=['GET'])
-def get_analyses():
-    user = Customer.query.filter_by(username=username).first()
-    if user.password != password:
-        raise ApiAuthenticationError
-
-    user_id = user.id
-
+@token_required
+def get_analyses(user_id):
     analysis = Analysis.query.filter_by(customer_id=user_id).all()
     return analyses_Schema.jsonify(analysis)
+
 
 @api.route('/')
 def draw_api():
@@ -120,5 +111,6 @@ def draw_api():
 
 @api.route('/test')
 @token_required
-def testeri():
+def testeri(user_id):
+    print(user_id)
     return jsonify({'Done': 'Done'})

@@ -12,10 +12,11 @@ def token_required(func):
 
         try:
             data = jwt.decode(token, current_app.config['SECRET_KEY'])
+            user_id = data.get('id', None)
         except:
             body = {'error': 'Token is invalid'}
             return jsonify(body), 403
-        return func(*args, **kwargs)
+        return func(user_id, *args, **kwargs)
     return wrapper
 
 
