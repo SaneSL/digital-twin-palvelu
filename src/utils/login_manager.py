@@ -1,5 +1,4 @@
 from flask_login import LoginManager
-from flask import redirect
 
 login_manager = LoginManager()
 login_manager.login_message = "Please log in"

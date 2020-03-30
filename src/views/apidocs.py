@@ -10,4 +10,4 @@ apidocs = Blueprint('apidocs', __name__, static_folder="static", template_folder
 @apidocs.route('/')
 @login_required
 def docs():
-    return redirect(url_for('home.login'))
+    pass
