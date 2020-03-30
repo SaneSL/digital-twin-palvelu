@@ -8,13 +8,16 @@ from utils.schemas import ma
 from utils.login_manager import loginManager
 from views.home import home
 from views.api import api
+from views.apidocs import apidocs
 
 
 # Init app
 app = Flask(__name__)
+
+# Register Blueprints
 app.register_blueprint(home)
 app.register_blueprint(api, url_prefix='/api')
-
+app.register_blueprint(apidocs)
 
 # Get config
 with open('config.json') as json_data_file:
@@ -27,13 +30,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = 'ghpahfgowfg'
  
-# Init db
+# Add db
 db.init_app(app)
 
-# Init marsmallow
+# Add marsmallow
 ma.init_app(app)
 
-# Init login manager
+# Add login manager
 loginManager.init_app(app)
 
 # Run Server
