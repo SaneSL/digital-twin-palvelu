@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from utils.models import db
 from utils.schemas import ma
-from utils.login_manager import loginManager
+from utils.login_manager import login_manager
 from views.home import home
 from views.api import api
 from views.apidocs import apidocs
@@ -37,7 +37,7 @@ db.init_app(app)
 ma.init_app(app)
 
 # Add login manager
-loginManager.init_app(app)
+login_manager.init_app(app)
 
 # Run Server
 if __name__ == '__main__':

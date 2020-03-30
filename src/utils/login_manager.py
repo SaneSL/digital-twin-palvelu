@@ -1,3 +1,3 @@
 from flask_login import LoginManager
 
-loginManager = LoginManager()
+login_manager = LoginManager()
