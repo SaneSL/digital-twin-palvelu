@@ -104,11 +104,6 @@ def get_analyses(user_id):
     return analyses_Schema.jsonify(analysis)
 
 
-@api.route('/')
-def draw_api():
-    return jsonify({"Page": "Here"})
-
-
 @api.route('/test')
 @token_required
 def testeri(user_id):

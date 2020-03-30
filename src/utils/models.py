@@ -10,10 +10,6 @@ db = SQLAlchemy()
 
 force_auto_coercion()
 
-@login_manager.user_loader
-def load_user(user_id):
-    return Customer.query.get(user_id)
-
 
 class Customer(db.Model, UserMixin):
     id = db.Column(db.Text, primary_key=True)

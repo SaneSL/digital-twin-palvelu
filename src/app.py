@@ -17,7 +17,7 @@ app = Flask(__name__)
 # Register Blueprints
 app.register_blueprint(home)
 app.register_blueprint(api, url_prefix='/api')
-app.register_blueprint(apidocs)
+app.register_blueprint(apidocs, url_prefix='/docs')
 
 # Get config
 with open('config.json') as json_data_file:
