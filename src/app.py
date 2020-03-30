@@ -24,8 +24,8 @@ with open('config.json') as json_data_file:
     cfg = json.load(json_data_file)
 
 # Database
-connString = "postgresql+psycopg2://{}:{}@{}/{}".format(cfg["pg_user"], cfg["pg_pw"], cfg["pg_host"], cfg["pg_db"])
-app.config['SQLALCHEMY_DATABASE_URI'] = connString
+conn_string = "postgresql+psycopg2://{}:{}@{}/{}".format(cfg["pg_user"], cfg["pg_pw"], cfg["pg_host"], cfg["pg_db"])
+app.config['SQLALCHEMY_DATABASE_URI'] = conn_string
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = 'ghpahfgowfg'
