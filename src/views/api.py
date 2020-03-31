@@ -3,9 +3,10 @@ from uuid import uuid4
 from utils.checks import *
 from utils.exceptions import *
 from utils.forms import *
-from utils.token import create_token
+from utils.token_jwt import create_token
 from utils.schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
 from utils.models import *
+import datetime
 
 
 api = Blueprint('api', __name__, static_folder="static", template_folder="templates")
@@ -29,9 +30,9 @@ def handle_error(error):
 @api.route('/register', methods=['POST'])
 @accept()
 def register():
-    name = request.json['name']
-    username = request.json['username']
-    password = request.json['password']
+    name = request.json.get('name', None)
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
 
     if None in (name, username, password):
         raise ArgMissingError
@@ -39,7 +40,10 @@ def register():
     # Use string UUID to avoid conversion problems
     id = str(uuid4())
 
-    new_Customer = Customer(id, name, username, password)
+    # Default subscription time is 30 days
+    sub_end = datetime.date.today() + datetime.timedelta(days=30)
+
+    new_Customer = Customer(id, name, username, password, sub_end)
     db.session.add(new_Customer)
     db.session.commit()
 
@@ -54,8 +58,8 @@ def register():
 @api.route('/token', methods=['POST'])
 @accept()
 def get_token():
-    username = request.json['username']
-    password = request.json['password']
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
 
     if None in (username, password):
         raise ArgMissingError

@@ -20,6 +20,7 @@ app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(apidocs, url_prefix='/docs')
 
 # Get config
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
 with open('config.json') as json_data_file:
     cfg = json.load(json_data_file)
 

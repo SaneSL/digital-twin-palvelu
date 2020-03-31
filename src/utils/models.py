@@ -1,10 +1,8 @@
-import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import UUIDType, PasswordType, JSONType, force_auto_coercion
 from flask_login import UserMixin
-from utils.login_manager import login_manager
+from login_manager import login_manager
 
-print(os.getcwd())
 
 db = SQLAlchemy()
 
@@ -16,14 +14,15 @@ class Customer(db.Model, UserMixin):
     name = db.Column(db.String, nullable=False)
     username = db.Column(db.String(16), unique=True, nullable=False)
     password = db.Column(PasswordType(schemes=['pbkdf2_sha512']))
-    # sub_end = db.Column(db.Date)
+    sub_end = db.Column(db.Date)
     results = db.relationship('Analysis', backref='customer')
 
-    def __init__(self, id, name, username, password):
+    def __init__(self, id, name, username, password, sub_end):
         self.id = id
         self.name = name
         self.username = username
         self.password = password
+        self.sub_end = sub_end
 
 
 class Analysis(db.Model):
@@ -38,8 +37,13 @@ class Analysis(db.Model):
 
 
 if __name__ == "__main__":
+    import sys
+    sys.path.append('..')
+    from app import app
+
     # Run this file directly to create the database tables
-    print ("Creating database tables...")
-    db.drop_all()
-    db.create_all()
-    print ("Done!")
+    with app.app_context():
+        print ("Creating database tables...")
+        db.drop_all()
+        db.create_all()
+        print ("Done!")

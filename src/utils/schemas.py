@@ -7,8 +7,8 @@ class CustomerSchema(ma.Schema):
     id = fields.UUID(required=True)
     name = fields.Str(required=True)
     username = fields.Str(required=True)
-    # sub_end = fields.Date()
-    exclude = ('password', 'sub_end')
+    sub_end = fields.Date()
+    exclude = ('password')
     class Meta:
         additional = ('token', )
 
