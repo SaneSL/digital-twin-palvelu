@@ -14,7 +14,8 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 # TODO:
 # Min/max lenght for password and username
 # Catch database errors
-# Maybe add token blacklist
+# Maybe add token blacklist for users to add tokens to
+# Test new token stuff
 
 
 @api.errorhandler(DatabaseError)
@@ -70,7 +71,7 @@ def get_token():
     if user.password != password:
         raise ApiAuthenticationError
         
-    token = create_token(user.id)
+    token = create_token(user.id, user.sub_end)
     body = {'token': token}
 
     return jsonify(body)
