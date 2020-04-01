@@ -6,7 +6,7 @@ from utils.models import *
 
 home = Blueprint('home', __name__, static_folder="static", template_folder="templates")
 
-# Test
+
 @home.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
