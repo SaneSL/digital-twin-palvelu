@@ -1,6 +1,8 @@
 # Example module 2. Does division
+from modules.module_abc import BaseModule
 
-class Division:
+
+class Division(BaseModule):
     module_id = 2
     def __init__(self, upper_lower):
         self.upper = upper_lower[0]

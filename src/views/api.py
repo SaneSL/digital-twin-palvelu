@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, Blueprint
+from flask import Flask, jsonify, request, render_template, Blueprint, g
 from uuid import uuid4
 from utils.checks import *
 from utils.exceptions import *
