@@ -73,7 +73,12 @@ def get_token():
 def analyze():
     username = request.json.get('username')
     password = request.json.get('password')
+
+    if None in (username, password):
+    raise ArgMissingError
+
     user = Customer.query.filter_by(username=username).first()
+
     if user.password != password:
         raise ApiAuthenticationError
     
@@ -109,8 +114,12 @@ def get_analysis(user_id, id):
 @api.route('/analyses', methods=['GET'])
 @token_required
 def get_analyses(user_id):
-    analysis = Analysis.query.filter_by(customer_id=user_id).all()
-    return analyses_Schema.jsonify(analysis)
+    analyses = Analysis.query.filter_by(customer_id=user_id).all()
+
+    if analyses is None:
+        return jsonify({})
+
+    return analyses_Schema.jsonify(analyses)
 
 
 @api.route('/test')
