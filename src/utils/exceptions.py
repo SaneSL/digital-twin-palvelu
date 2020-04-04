@@ -27,5 +27,22 @@ class ApiAuthenticationError(CustomException):
 
 class ArgMissingError(CustomException):
     message = "Missing argument(s)"
-    def __init__(self, message=message, status_code=403):
+    def __init__(self, message=message, status_code=400):
+        super().__init__(message, status_code)
+
+
+class ModuleError(CustomException):
+    message = "Module error"
+    def __init__(self, message=message, status_code=500):
+        super().__init__(message, status_code)
+
+
+class ModuleArgError(CustomException):
+    message = "Invalid module arguments"
+    def __init__(self, message=message, status_code=400):
+        super().__init__(message, status_code)
+
+class SubEndError(CustomException):
+    message = "No active subscription"
+    def __init__(self, message=message, status_code=400):
         super().__init__(message, status_code)

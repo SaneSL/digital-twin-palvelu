@@ -88,16 +88,13 @@ def analyze():
     if user.password != password:
         raise ApiAuthenticationError
     
-
     # Maybe check variables before allowing to pass them to module with class.__dict__.keys()
-    # Convert data to json in api or somewhere
     
     module = current_app.config['MODULE_API'].factory.get_module(1, data=(1,2,3))
     results = module.run()
 
     if not isinstance(results, dict):
         return jsonify({'ERR': 'ERR'})
-    
     
     new_analysis = Analysis(results, user.id)
     db.session.add(new_analysis)
