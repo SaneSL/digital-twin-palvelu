@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, Blueprint, g
+from flask import Flask, jsonify, request, render_template, Blueprint, current_app
 from uuid import uuid4
 from utils.checks import *
 from utils.exceptions import *
@@ -6,6 +6,7 @@ from utils.forms import *
 from utils.token_jwt import create_token
 from utils.schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
 from utils.models import *
+from modules.moduleapi import ModuleAPI
 import datetime
 
 
@@ -31,9 +32,9 @@ def handle_error(error):
 @api.route('/register', methods=['POST'])
 @accept()
 def register():
-    name = request.json.get('name', None)
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
+    name = request.json.get('name')
+    username = request.json.get('username')
+    password = request.json.get('password')
 
     if None in (name, username, password):
         raise ArgMissingError
@@ -59,8 +60,8 @@ def register():
 @api.route('/token', methods=['POST'])
 @accept()
 def get_token():
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
+    username = request.json.get('username')
+    password = request.json.get('password')
 
     if None in (username, password):
         raise ArgMissingError
@@ -81,9 +82,14 @@ def get_token():
 @api.route('/analyze', methods=['POST'])
 @accept()
 def analyze():
+    username = request.json.get('username')
+    password = request.json.get('password')
+
     user = Customer.query.filter_by(username=username).first()
+    
     if user.password != password:
         raise ApiAuthenticationError
+    
 
     # Do the module stuff here and return
 

@@ -9,7 +9,7 @@ from utils.login_manager import login_manager
 from views.home import home
 from views.api import api
 from views.apidocs import apidocs
-from modules.moduleapi import
+from modules.moduleapi import ModuleAPI
 
 
 
@@ -47,5 +47,6 @@ def create_app(module_api):
 
 # Run Server
 if __name__ == '__main__':
-    app = create_app()
+    module_api = ModuleAPI()
+    app = create_app(module_api)
     app.run(debug=True)

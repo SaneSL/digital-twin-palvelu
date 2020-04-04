@@ -3,8 +3,8 @@ from modules.module_abc import BaseModule
 
 class Addition(BaseModule):
     module_id = 1
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, **kwargs):
+        self.data = kwargs.get('data')
 
     def add(self):
         results = sum(self.data)
