@@ -11,8 +11,22 @@ from views.api import api
 from views.apidocs import apidocs
 from modules.moduleapi import ModuleAPI
 from utils.error_handler import error_handler
+from flasgger import Swagger
 
 
+template = {
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My API",
+    "description": "description",
+    "contact": {
+      "name": "Sane",
+      "url": "http://Sane.com",
+      "email": "Sane@Sane.com"
+    }
+  }
+}
 
 def create_app(module_api):
     # Init app
@@ -45,6 +59,10 @@ def create_app(module_api):
 
     # Add login manager
     login_manager.init_app(app)
+
+    # Add swagger
+    swagger = Swagger(app, template=template)
+
     return app
 
 # Run Server

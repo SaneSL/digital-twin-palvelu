@@ -75,7 +75,7 @@ def analyze():
     password = request.json.get('password')
 
     if None in (username, password):
-    raise ArgMissingError
+        raise ArgMissingError
 
     user = Customer.query.filter_by(username=username).first()
 
