@@ -8,7 +8,7 @@ class Addition(BaseModule):
 
     def add(self):
         results = sum(self.data)
-        return results
+        return {'data': results}
 
     def run(self):
         return self.add()

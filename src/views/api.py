@@ -45,8 +45,8 @@ def register():
     # Default subscription time is 30 days
     sub_end = datetime.date.today() + datetime.timedelta(days=30)
 
-    new_Customer = Customer(id, name, username, password, sub_end)
-    db.session.add(new_Customer)
+    new_customer = Customer(id, name, username, password, sub_end)
+    db.session.add(new_customer)
     db.session.commit()
 
     token = create_token(id)
@@ -84,14 +84,26 @@ def get_token():
 def analyze():
     username = request.json.get('username')
     password = request.json.get('password')
-
     user = Customer.query.filter_by(username=username).first()
-    
     if user.password != password:
         raise ApiAuthenticationError
     
 
-    # Do the module stuff here and return
+    # Maybe check variables before allowing to pass them to module with class.__dict__.keys()
+    # Convert data to json in api or somewhere
+    
+    module = current_app.config['MODULE_API'].factory.get_module(1, data=(1,2,3))
+    results = module.run()
+
+    if not isinstance(results, dict):
+        return jsonify({'ERR': 'ERR'})
+    
+    
+    new_analysis = Analysis(results, user.id)
+    db.session.add(new_analysis)
+    db.session.commit()
+
+    return analysis_Schema.jsonify(new_analysis)
 
 
 # Get analysis

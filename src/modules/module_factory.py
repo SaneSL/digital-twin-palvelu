@@ -5,10 +5,10 @@ class ModuleFactory:
     creators = {1: Addition, 2: Division}
 
     @classmethod
-    def getModule(cls, id, **kwargs):
-        Module = creators.get(id)
+    def get_module(cls, id, **kwargs):
+        module = cls.creators.get(id)
 
-        if Module is None:
+        if module is None:
             raise ValueError
         else:
-            return Module(**kwargs)
+            return module(**kwargs)

@@ -16,7 +16,7 @@ class Division(BaseModule):
     def divide(self):
         self.check_divider()
         results = sum(self.data)
-        return results
+        return {"data": results}
 
     def run(self):
         return self.divide()
