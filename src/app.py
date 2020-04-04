@@ -10,6 +10,7 @@ from views.home import home
 from views.api import api
 from views.apidocs import apidocs
 from modules.moduleapi import ModuleAPI
+from utils.error_handler import error_handler
 
 
 
@@ -21,6 +22,7 @@ def create_app(module_api):
     app.register_blueprint(home)
     app.register_blueprint(api, url_prefix='/api')
     app.register_blueprint(apidocs, url_prefix='/docs')
+    app.register_blueprint(error_handler)
 
     # Get config
     os.chdir(os.path.dirname(os.path.realpath(__file__)))

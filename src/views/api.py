@@ -16,16 +16,7 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 # Min/max lenght for password and username
 # Catch database errors
 # Maybe add token blacklist for users to add tokens to
-# Test new token stuff
-
-
-@api.errorhandler(DatabaseError)
-@api.errorhandler(ApiAuthenticationError)
-@api.errorhandler(ArgMissingError)
-def handle_error(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
+# Dont return schema because if that fails stuff is already in DB
 
 
 # Register
@@ -51,9 +42,7 @@ def register():
 
     token = create_token(id)
 
-    data = {'id': id, 'name': name, 'username': username, 'token':token}
-
-    return customer_Schema.jsonify(data)
+    return customer_Schema.jsonify(new_customer)
 
 
 # Get new token
