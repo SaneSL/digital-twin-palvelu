@@ -13,17 +13,39 @@ from modules.moduleapi import ModuleAPI
 from utils.error_handler import error_handler
 from flasgger import Swagger
 
-
 template = {
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "My API",
-    "description": "description",
-    "contact": {
-      "name": "Sane",
-      "url": "http://Sane.com",
-      "email": "Sane@Sane.com"
+    "title": "Digital Twin API",
+    "description": "API documentation"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "API"
+    }
+  ],
+  "definitions": {
+    "Analysis": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "results": {
+          "type": "object"
+        }
+      }
     }
   }
 }

@@ -7,6 +7,7 @@ from utils.token_jwt import create_token
 from utils.schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
 from utils.models import *
 from modules.moduleapi import ModuleAPI
+from flasgger.utils import swag_from
 import datetime
 
 
@@ -22,6 +23,7 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 # Register
 @api.route('/register', methods=['POST'])
 @accept()
+@swag_from('F:/PythonProj/kandi-demo/src/docs/api_yaml/register.yml')
 def register():
     name = request.json.get('name')
     username = request.json.get('username')
