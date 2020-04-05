@@ -5,7 +5,8 @@ import jwt
 def token_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        token = request.json.get('token', None)
+        token = request.json.get('token')
+        
         if token is None:
             body = {'error': 'Token is missing'}
             return jsonify(body), 401

@@ -28,7 +28,7 @@ def register():
     password = request.json.get('password')
 
     if None in (name, username, password):
-        raise ArgMissingError
+        raise InvalidArgError
 
     # Use string UUID to avoid conversion problems
     id = str(uuid4())
@@ -53,12 +53,11 @@ def get_token():
     password = request.json.get('password')
 
     if None in (username, password):
-        raise ArgMissingError
+        raise InvalidArgError
 
-    
     user = Customer.query.filter_by(username=username).first()
 
-    if user.password != password:
+    if user is None or user.password != password:
         raise ApiAuthenticationError
         
     token = create_token(user.id, user.sub_end)
@@ -70,27 +69,25 @@ def get_token():
 # Post analysis
 @api.route('/analyze', methods=['POST'])
 @accept()
-def analyze():
-    username = request.json.get('username')
-    password = request.json.get('password')
-
-    if None in (username, password):
-        raise ArgMissingError
-
-    user = Customer.query.filter_by(username=username).first()
-
-    if user.password != password:
-        raise ApiAuthenticationError
-    
+@token_required
+def analyze(user_id):
     # Maybe check variables before allowing to pass them to module with class.__dict__.keys()
     
-    module = current_app.config['MODULE_API'].factory.get_module(1, data=(1,2,3))
+    data = request.json.get('data')
+    module_id = request.json.get('module_id')
+
+    # Useless because accept()?
+    if None in (data, module_id) or not isinstance(data, dict):
+        raise InvalidArgError
+
+    module = current_app.config['MODULE_API'].factory.get_module(1, data)
     results = module.run()
 
+    # Module returns invalid type
     if not isinstance(results, dict):
-        return jsonify({'ERR': 'ERR'})
+        raise ModuleError
     
-    new_analysis = Analysis(results, user.id)
+    new_analysis = Analysis(results, user_id)
     db.session.add(new_analysis)
     db.session.commit()
 
@@ -98,13 +95,16 @@ def analyze():
 
 
 # Get analysis
-@api.route('/analysis/<id>', methods=['GET'])
+@api.route('/analysis', methods=['GET'])
 @token_required
-def get_analysis(user_id, id):
+def get_analysis(user_id):
+    id = request.json.get('id')
+
+    # Maybe invalid argument better
     try:
         id = int(id)
-    except ValueError:
-        raise ArgMissingError
+    except:
+        raise InvalidArgError
 
     analysis = Analysis.query.filter_by(id=id, customer_id=user_id).first()
     return analysis_Schema.jsonify(analysis)

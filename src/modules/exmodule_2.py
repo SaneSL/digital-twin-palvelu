@@ -4,9 +4,9 @@ from modules.module_abc import BaseModule
 
 class Division(BaseModule):
     module_id = 2
-    def __init__(self, **kwargs):
-        self.upper = kwargs.get('upper')
-        self.lower = kwargs.get('lower')
+    def __init__(self, data_dict):
+        self.upper = data_dict.get('upper')
+        self.lower = data_dict.get('lower')
 
     # Make moduleArgException?
     def check_divider(self):

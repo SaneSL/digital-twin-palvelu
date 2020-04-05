@@ -17,6 +17,7 @@ class AnalysisSchema(ma.Schema):
     id = fields.Integer()
     results = fields.Raw()
     customer_id = fields.UUID()
+    exclude= ('customer_id')
 
 
 # Init schema
