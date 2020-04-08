@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-center" style="margin-top: 150px;">
+  <form class="border rounded border-dark p-5" style="width: 450px;height: 600px;background-color: rgb(255,255,255);">
+    <h4 class="mb-3">Register</h4>
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.company_name.label(class="form-control-label") }}
+      {{ form.company_name(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.email.label(class="form-control-label") }}
+      {{ form.email(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.username.label(class="form-control-label") }}
+      {{ form.username(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.password.label(class="form-control-label") }}
+      {{ form.password(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.sub.label(class="form-control-label") }}
+      {{ form.sub(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary btn-block", style="background-color: rgb(160,47,47);margin-top: 0px;") }}
+    </div>
+  </form>
+</div>
+{% endblock content %}
