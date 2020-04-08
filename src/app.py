@@ -50,7 +50,7 @@ template = {
   }
 }
 
-def create_app(module_api):
+def create_app(module_api=None):
     # Init app
     app = Flask(__name__)
 
@@ -71,7 +71,9 @@ def create_app(module_api):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = True
     app.config['SECRET_KEY'] = 'ghpahfgowfg'
-    app.config['MODULE_API'] = module_api
+    
+    if module_api is not None:
+      app.config['MODULE_API'] = module_api
     
     # Add db
     db.init_app(app)
