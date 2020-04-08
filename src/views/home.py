@@ -37,3 +37,10 @@ def get_home():
 def logout():
     logout_user()
     return redirect(url_for('home.get_home'))
+
+@home.route('/registerx')
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        return jsonify({"T": "T"})
+    return render_template('register.html', form=form)
