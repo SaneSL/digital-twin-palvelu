@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="d-flex justify-content-center" style="margin-top: 150px;">
-  <form class="border rounded border-dark p-5" style="width: 450px;height: 600px;background-color: rgb(255,255,255);">
+  <form class="border rounded border-dark p-5" method="POST" action="" style="width: 450px;height: 600px;background-color: rgb(255,255,255);">
     <h4 class="mb-3">Register</h4>
-    {{ form.hidden_tag() }}
+    {{ form.hidden_tag()}}
     <div class="form-group">
       {{ form.company_name.label(class="form-control-label") }}
       {{ form.company_name(class="form-control")}}

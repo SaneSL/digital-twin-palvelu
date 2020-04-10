@@ -20,33 +20,6 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 # Dont return schema because if that fails stuff is already in DB
 
 
-# Register
-@api.route('/register', methods=['POST'])
-@accept()
-@swag_from('F:/PythonProj/kandi-demo/src/docs/api_yaml/register.yml')
-def register():
-    name = request.json.get('name')
-    username = request.json.get('username')
-    password = request.json.get('password')
-
-    if None in (name, username, password):
-        raise InvalidArgError
-
-    # Use string UUID to avoid conversion problems
-    id = str(uuid4())
-
-    # Default subscription time is 30 days
-    sub_end = datetime.date.today() + datetime.timedelta(days=30)
-
-    new_customer = Customer(id, name, username, password, sub_end)
-    db.session.add(new_customer)
-    db.session.commit()
-
-    token = create_token(id)
-
-    return customer_Schema.jsonify(new_customer)
-
-
 # Get new token
 @api.route('/token', methods=['POST'])
 @accept()
