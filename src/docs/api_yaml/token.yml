@@ -1,0 +1,22 @@
+summary: Get new JWT
+tags:
+  - API
+description: ""
+parameters:
+  - in: body
+    name: body
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+responses:
+  200:
+    description: OK.
+    schema:
+      type: object
+      properties:
+        token:
+          type: string

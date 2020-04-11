@@ -9,6 +9,7 @@ from utils.models import *
 from modules.moduleapi import ModuleAPI
 from flasgger.utils import swag_from
 import datetime
+import os
 
 
 api = Blueprint('api', __name__, static_folder="static", template_folder="templates")
@@ -21,8 +22,9 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 
 
 # Get new token
-@api.route('/token', methods=['POST'])
+@api.route('/token', methods=['GET'])
 @accept()
+@swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'token.yml'))
 def get_token():
     username = request.json.get('username')
     password = request.json.get('password')
@@ -45,6 +47,7 @@ def get_token():
 @api.route('/analyze', methods=['POST'])
 @accept()
 @token_required
+@swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'analyze.yml'))
 def analyze(user_id):
     # Maybe check variables before allowing to pass them to module with class.__dict__.keys()
     
@@ -72,6 +75,7 @@ def analyze(user_id):
 # Get analysis
 @api.route('/analysis', methods=['GET'])
 @token_required
+@swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'analysis.yml'))
 def get_analysis(user_id):
     id = request.json.get('id')
 
@@ -88,6 +92,7 @@ def get_analysis(user_id):
 # Get all analyses
 @api.route('/analyses', methods=['GET'])
 @token_required
+@swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'analyses.yml'))
 def get_analyses(user_id):
     analyses = Analysis.query.filter_by(customer_id=user_id).all()
 

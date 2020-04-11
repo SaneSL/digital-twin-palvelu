@@ -1,0 +1,19 @@
+summary: Get analysis
+tags:
+  - API
+description: ""
+parameters:
+  - in: body
+    name: body
+    schema:
+      type: object
+      properties:
+        token:
+          type: string
+        id:
+          type: integer
+responses:
+  200:
+    description: OK.
+    schema:
+      $ref: '#/definitions/Analysis'

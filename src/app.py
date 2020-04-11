@@ -50,7 +50,24 @@ template = {
   }
 }
 
-def create_app(module_api=None):
+config = {
+    "headers": [
+    ],
+    "specs": [
+        {
+            "endpoint": 'apispec_1',
+            "route": '/apispec_1.json',
+            "rule_filter": lambda rule: True,  # all in
+            "model_filter": lambda tag: True,  # all in
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    # "static_folder": "static",  # must be set by user
+    "swagger_ui": True,
+    "specs_route": "/dogs/"
+}
+
+def create_app(**kwargs):
     # Init app
     app = Flask(__name__)
 
@@ -70,10 +87,14 @@ def create_app(module_api=None):
     app.config['SQLALCHEMY_DATABASE_URI'] = conn_string
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = True
+
+    # Other
     app.config['SECRET_KEY'] = 'ghpahfgowfg'
-    
-    if module_api is not None:
-      app.config['MODULE_API'] = module_api
+    #app.config['SWAGGER'] = {'doc_dir': 'F:/PythonProj/kandi-demo/src/docs/api_yaml'}
+
+    if kwargs.get('module') is True:
+        module_api = ModuleAPI()
+        app.config['MODULE_API'] = module_api
     
     # Add db
     db.init_app(app)
@@ -85,12 +106,12 @@ def create_app(module_api=None):
     login_manager.init_app(app)
 
     # Add swagger
-    swagger = Swagger(app, template=template)
+    swagger = Swagger(app, template=template, config=config)
 
     return app
 
 # Run Server
 if __name__ == '__main__':
     module_api = ModuleAPI()
-    app = create_app(module_api)
+    app = create_app(module=True)
     app.run(debug=True)
