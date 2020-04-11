@@ -1,7 +1,7 @@
 from modules.work_modules.exmodule_1 import Addition
 from modules.work_modules.exmodule_2 import Division
 
-# pdoc --html --config show_source_code=False --output-dir docs . --force
+# pdoc --html --config show_source_code=False --output-dir docs/modules ./modules/work_modules --force
 
 class ModuleFactory:
     creators = {1: Addition, 2: Division}
