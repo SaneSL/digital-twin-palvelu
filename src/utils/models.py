@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy_utils import UUIDType, PasswordType, JSONType, force_auto_coercion
+from sqlalchemy_utils import UUIDType, PasswordType, JSONType, EmailType, force_auto_coercion
 from flask_login import UserMixin
 
 
@@ -11,13 +11,15 @@ force_auto_coercion()
 class Customer(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    email = db.Column(EmailType)
     username = db.Column(db.String(16), unique=True, nullable=False)
     password = db.Column(PasswordType(schemes=['pbkdf2_sha512']))
     results = db.relationship('Analysis', backref='customer')
 
-    def __init__(self, id, name, username, password):
+    def __init__(self, id, email, name, username, password):
         self.id = id
         self.name = name
+        self.email = email
         self.username = username
         self.password = password
 

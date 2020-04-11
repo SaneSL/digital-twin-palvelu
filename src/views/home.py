@@ -56,7 +56,7 @@ def register():
 
         sub_end = datetime.date.today() + datetime.timedelta(days=sub*30)
 
-        new_customer = Customer(id, name, username, password)
+        new_customer = Customer(id, name, email, username, password)
         new_sub = Sub(id, sub_end, sub)
 
         # Commit first because reference is needed for sub
