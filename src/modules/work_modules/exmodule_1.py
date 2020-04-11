@@ -2,6 +2,7 @@
 from modules.module_abc import BaseModule
 
 class Addition(BaseModule):
+    """DOCS 1"""
     module_id = 1
     def __init__(self, data_dict):
         self.data = data_dict.get('values')

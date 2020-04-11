@@ -3,6 +3,7 @@ from modules.module_abc import BaseModule
 
 
 class Division(BaseModule):
+    """DOCS 2"""
     module_id = 2
     def __init__(self, data_dict):
         self.upper = data_dict.get('upper')
