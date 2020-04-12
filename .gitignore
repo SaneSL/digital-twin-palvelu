@@ -24,4 +24,5 @@ instance/
 
 # Other
 test.py
+src/templates/test.html
 config.json
