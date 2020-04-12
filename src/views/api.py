@@ -103,7 +103,7 @@ def get_analyses(user_id):
 
 
 @api.route('/test')
-@token_required
-def testeri(user_id):
-    print(user_id)
-    return jsonify({'Done': 'Done'})
+def testeri():
+    print('XD')
+    #return current_app.send_static_file('work_modules/index.html')
+    return render_template('work_modules/index.html')
