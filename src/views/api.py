@@ -57,8 +57,8 @@ def analyze(user_id):
     if None in (data, module_id) or not isinstance(data, dict):
         raise InvalidArgError
 
-    module = current_app.config['MODULE_API'].factory.get_module(1, data)
-    results = module.run()
+    module = current_app.config['MODULE_API'].factory.get_module(1, **data)
+    results = module._run()
 
     # Module returns invalid type
     if not isinstance(results, dict):
