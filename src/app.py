@@ -8,7 +8,7 @@ from utils.schemas import ma
 from utils.login_manager import login_manager
 from views.home import home
 from views.api import api
-from views.apidocs import apidocs
+from views.docs import docs
 from modules.moduleapi import ModuleAPI
 from utils.error_handler import error_handler
 from flasgger import Swagger
@@ -64,17 +64,17 @@ config = {
     "static_url_path": "/flasgger_static",
     # "static_folder": "static",  # must be set by user
     "swagger_ui": True,
-    "specs_route": "/dogs/"
+    "specs_route": "/apidocs/"
 }
 
 def create_app(**kwargs):
     # Init app
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='/docs/modules')
 
     # Register Blueprints
     app.register_blueprint(home)
     app.register_blueprint(api, url_prefix='/api')
-    app.register_blueprint(apidocs, url_prefix='/docs')
+    app.register_blueprint(docs, url_prefix='')
     app.register_blueprint(error_handler)
 
     # Get config

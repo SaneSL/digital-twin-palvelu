@@ -6,7 +6,6 @@ from utils.forms import *
 from utils.token_jwt import create_token
 from utils.schemas import customer_Schema, customers_Schema, analysis_Schema, analyses_Schema
 from utils.models import *
-from modules.moduleapi import ModuleAPI
 from flasgger.utils import swag_from
 import datetime
 import os
@@ -102,8 +101,8 @@ def get_analyses(user_id):
     return analyses_Schema.jsonify(analyses)
 
 
-@api.route('/test')
+""" @api.route('/test')
 def testeri():
     print('XD')
     #return current_app.send_static_file('work_modules/index.html')
-    return render_template('work_modules/index.html')
+    return render_template('work_modules/index.html') """
