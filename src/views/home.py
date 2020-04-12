@@ -33,7 +33,7 @@ def login():
 @home.route('/')
 @home.route('/home')
 def get_home():
-    return render_template('layout.html')
+    return render_template('home.html')
 
 @home.route('/logout')
 def logout():

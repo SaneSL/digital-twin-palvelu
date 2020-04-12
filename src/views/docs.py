@@ -6,6 +6,11 @@ docs = Blueprint('docs', __name__, static_folder="static", template_folder="temp
 
 
 
-@docs.route('/moduledocs')
-def module_docs():
+@docs.route('/get_moduledocs')
+def moduledocs():
     return redirect('docs/modules/work_modules/index.html')
+
+
+@docs.route('/get_apidocs')
+def apidocs():
+    return redirect('/apidocs/')
