@@ -3,15 +3,44 @@ body, html {
 }
 
 .cbg {
-  background-color: rgb(137,135,135);
+  background-color: #898787;
 }
 
 .cnavbg {
-background-color: rgb(198,188,188);
+background-color: #c6bcbc;
 }
 
 .cbtnbg {
-background-color: rgb(160,47,47);
+background-color: #a02f2f;
+}
+
+.custom.action-button {
+  background-color: #a02f2f!important;
+}
+
+.custom.btn-primary:hover{
+  background-color: #a02f2f;
+  outline: none;
+  box-shadow: none;
+}
+
+.custom.btn-primary:focus{
+  background-color: #a02f2f;
+  outline: none;
+  box-shadow: none;
+}
+
+.custom.btn-primary:active{
+  background-color: #a02f2f!important;
+  outline: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.custom.btn-primary:active:focus{
+  background-color: #a02f2f!important;
+  outline: none;
+  box-shadow: none!important;
 }
 
 #maintext {
