@@ -25,5 +25,3 @@ instance/
 # Other
 test.py
 config.json
-/static/work_modules/*.html
-static/work_modules/
