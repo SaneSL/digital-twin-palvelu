@@ -2,15 +2,14 @@
 
 
 class CustomException(Exception):
-    def __init__(self, message, status_code, payload=None):
+    def __init__(self, message, status_code):
         Exception.__init__(self)
         self.message = message
         self.status_code = status_code
-        self.payload = payload
 
     def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['error'] = self.message
+        rv = dict()
+        rv['error'] = {"code": self.status_code, "message": self.message}
         return rv
 
 
@@ -38,7 +37,12 @@ class ModuleError(CustomException):
 
 
 class ModuleArgError(CustomException):
-    message = "Invalid module arguments"
+    message = "Invalid module argument(s)"
+    def __init__(self, message=message, status_code=400):
+        super().__init__(message, status_code)
+
+class ModuleNotFound(CustomException):
+    message = "Invalid module ID"
     def __init__(self, message=message, status_code=400):
         super().__init__(message, status_code)
 

@@ -35,8 +35,13 @@ def get_token():
 
     if user is None or user.password != password:
         raise AuthenticationError
-        
-    token = create_token(user.id, user.sub_end)
+    
+    sub = Sub.query.filter_by(customer_id = user.id).first()
+
+    if sub is None:
+        raise DatabaseError
+
+    token = create_token(user.id, sub.end)
     body = {'token': token}
 
     return jsonify(body)
@@ -57,7 +62,8 @@ def analyze(user_id):
     if None in (data, module_id) or not isinstance(data, dict):
         raise InvalidArgError
 
-    module = current_app.config['MODULE_API'].factory.get_module(1, **data)
+    module = current_app.config['MODULE_API'].factory.get_module(module_id, **data)
+
     results = module._run()
 
     # Module returns invalid type
@@ -99,10 +105,3 @@ def get_analyses(user_id):
         return jsonify({})
 
     return analyses_Schema.jsonify(analyses)
-
-
-""" @api.route('/test')
-def testeri():
-    print('XD')
-    #return current_app.send_static_file('work_modules/index.html')
-    return render_template('work_modules/index.html') """

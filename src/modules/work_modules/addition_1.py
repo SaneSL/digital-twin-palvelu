@@ -1,5 +1,6 @@
 # Example module 1. Does addition
 from modules.module_abc import BaseModule
+from utils.exceptions import ModuleArgError, ModuleError
 
 class Addition(BaseModule):
     """Calculates addition of given values
@@ -23,7 +24,7 @@ class Addition(BaseModule):
         return {'data': results}
 
     def _run(self):
-        return self.add()
+        return self._add()
 
 
     

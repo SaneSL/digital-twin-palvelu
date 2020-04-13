@@ -1,6 +1,6 @@
 # Example module 2. Does division
 from modules.module_abc import BaseModule
-
+from utils.exceptions import ModuleArgError, ModuleError
 
 class Division(BaseModule):
     """Calculates division of two values
@@ -27,14 +27,13 @@ class Division(BaseModule):
         self._upper = upper
         self._lower = lower
 
-    # Make moduleArgException?
     def _check_divider(self):
         if self._lower == 0:
-            raise Exception    
+            raise ModuleArgError
     
     def _divide(self):
         self._check_divider()
-        results = sum(self._data)
+        results = self._upper / self._lower
         return {"data": results}
 
     def _run(self):
