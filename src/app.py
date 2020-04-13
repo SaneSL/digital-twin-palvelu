@@ -109,9 +109,3 @@ def create_app(**kwargs):
     swagger = Swagger(app, template=template, config=config)
 
     return app
-
-# Run Server
-if __name__ == '__main__':
-    module_api = ModuleAPI()
-    app = create_app(module=True)
-    app.run(debug=True)
