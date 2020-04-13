@@ -19,7 +19,7 @@ class DatabaseError(CustomException):
     def __init__(self, message=message, status_code=500):
         super().__init__(message, status_code)
 
-class ApiAuthenticationError(CustomException):
+class AuthenticationError(CustomException):
     message = "Authentication error"
     def __init__(self, message=message, status_code=401):
         super().__init__(message, status_code)
