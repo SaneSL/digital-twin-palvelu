@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid border rounded border-dark" style="width: 50%;margin-top: 15%;background-color: rgb(255,255,255);">
+  <div class="row">
+      <div class="col">
+          <ul class="nav nav-tabs">
+              <li class="nav-item"><a class="nav-link" href="#general" data-toggle="tab">General</a></li>
+              <li class="nav-item"><a class="nav-link" href="#billing" data-toggle="tab">Billing</a></li>
+          </ul>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col">
+          <div class="tab-content">
+              <div id="general" class="tab-pane active">
+                  <div class="row">
+                      <div class="col"><label>Company name</label></div>
+                      <div class="col"><label>{{ company_name }}</label></div>
+                  </div>
+                  <div class="row">
+                      <div class="col"><label>Username</label></div>
+                      <div class="col"><label>{{ username }}</label></div>
+                  </div>
+                  <div class="row">
+                      <div class="col"><label>Email</label></div>
+                      <div class="col"><label>{{ email }}</label></div>
+                  </div>
+                  <div class="row">
+                    <div class="col"><label>User ID</label></div>
+                    <div class="col"><label>{{ id }}</label></div>
+                </div>
+              </div>
+              <div id="billing" class="tab-pane">
+                  <div class="row">
+                      <div class="col"><label>Subscription type</label></div>
+                      <div class="col"><label>{{ sub }}</label></div>
+                  </div>
+                  <div class="row">
+                      <div class="col"><label>Next due date</label></div>
+                      <div class="col"><label>{{ due_date }}</label></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock content %}

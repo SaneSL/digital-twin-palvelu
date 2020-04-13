@@ -38,6 +38,7 @@
         </form>
       </div>
       {% if current_user.is_authenticated %}
+      <a class="btn action-button custom mx-1" role="button" href="{{ url_for('home.profile') }}">Profile</a>
       <a class="btn action-button custom mx-1" role="button" href="{{ url_for('home.logout') }}">Logout</a>
       {% else %}
       <a class="btn action-button custom mx-1" role="button" href="{{ url_for('home.login') }}">Login</a>
