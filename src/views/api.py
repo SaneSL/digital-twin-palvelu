@@ -34,7 +34,7 @@ def get_token():
     user = Customer.query.filter_by(username=username).first()
 
     if user is None or user.password != password:
-        raise ApiAuthenticationError
+        raise AuthenticationError
         
     token = create_token(user.id, user.sub_end)
     body = {'token': token}

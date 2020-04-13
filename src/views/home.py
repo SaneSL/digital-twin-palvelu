@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, render_template, Blueprint, flash, redirect, url_for
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from utils.forms import *
 from utils.models import *
 from uuid import uuid4
@@ -72,3 +72,19 @@ def register():
         return redirect(url_for('home.login'))
 
     return render_template('register.html', form=form)
+
+@home.route('/profile')
+@login_required
+def profile():
+    id = current_user.id
+
+    result = db.session.query(Customer).join(Sub).filter(Customer.id == id).first()
+
+    company_name = result.name
+    username = result.username
+    email = result.email
+    id = result.id
+    sub = str(result.sub.period) + " month"
+    due_date = result.sub.end
+
+    return render_template('profile.html', company_name=company_name, username=username, email=email, id=id, sub=sub, due_date=due_date)

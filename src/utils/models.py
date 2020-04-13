@@ -11,12 +11,13 @@ force_auto_coercion()
 class Customer(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    email = db.Column(EmailType)
-    username = db.Column(db.String(16), unique=True, nullable=False)
-    password = db.Column(PasswordType(schemes=['pbkdf2_sha512']))
+    email = db.Column(EmailType, unique=True, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
+    password = db.Column(PasswordType(schemes=['pbkdf2_sha512']), nullable=False)
     results = db.relationship('Analysis', backref='customer')
+    sub = db.relationship('Sub', uselist=False, backref='customer')
 
-    def __init__(self, id, email, name, username, password):
+    def __init__(self, id, name, email , username, password):
         self.id = id
         self.name = name
         self.email = email
@@ -27,7 +28,7 @@ class Customer(db.Model, UserMixin):
 class Analysis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     results = db.Column(JSONType)
-    customer_id = db.Column(db.Text, db.ForeignKey(Customer.id), nullable=False)
+    customer_id = db.Column(db.String, db.ForeignKey(Customer.id), nullable=False)
 
     def __init__(self, results, customer_id):
         self.results = results
@@ -46,10 +47,10 @@ class Sub(db.Model):
         self.period = period
 
 if __name__ == "__main__":
-    from app import create_app
     import sys
 
     sys.path.append('..')
+    from app import create_app
     app = create_app()
 
     with app.app_context():
