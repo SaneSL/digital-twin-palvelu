@@ -1,2 +1,2 @@
 # kandi-demo
-Demo toteutus kandidaatintyölle
+Demo kandidaatintyölle
