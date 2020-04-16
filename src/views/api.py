@@ -17,11 +17,10 @@ api = Blueprint('api', __name__, static_folder="static", template_folder="templa
 # Min/max lenght for password and username
 # Catch database errors
 # Maybe add token blacklist for users to add tokens to
-# Dont return schema because if that fails stuff is already in DB
 
 
 # Get new token
-@api.route('/token', methods=['GET'])
+@api.route('/token', methods=['POST'])
 @accept()
 @swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'token.yml'))
 def get_token():
@@ -78,7 +77,7 @@ def analyze(user_id):
 
 
 # Get analysis
-@api.route('/analysis', methods=['GET'])
+@api.route('/analysis', methods=['POST'])
 @token_required
 @swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'analysis.yml'))
 def get_analysis(user_id):
@@ -91,17 +90,21 @@ def get_analysis(user_id):
         raise InvalidArgError
 
     analysis = Analysis.query.filter_by(id=id, customer_id=user_id).first()
+
+    if analysis is None:
+        raise NoResultsFound
+
     return analysis_Schema.jsonify(analysis)
 
 
 # Get all analyses
-@api.route('/analyses', methods=['GET'])
+@api.route('/analyses', methods=['POST'])
 @token_required
 @swag_from(os.path.join(os.getcwd(), 'docs', 'api_yaml', 'analyses.yml'))
 def get_analyses(user_id):
     analyses = Analysis.query.filter_by(customer_id=user_id).all()
 
     if analyses is None:
-        return jsonify({})
+        raise NoResultsFound
 
     return analyses_Schema.jsonify(analyses)

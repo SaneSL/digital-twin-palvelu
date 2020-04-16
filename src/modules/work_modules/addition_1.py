@@ -14,13 +14,20 @@ class Addition(BaseModule):
     -------
     int
         Result of addition
+    Raises
+    ------
+    ModuleArgError
+        Raised if invalid arguments were given
     """
     module_id = 1
     def __init__(self, values):
         self._data = values # List
 
     def _add(self):
-        results = sum(self._data)
+        try:
+            results = sum(self._data)
+        except:
+            raise ModuleArgError
         return {'data': results}
 
     def _run(self):

@@ -57,6 +57,8 @@ def register():
         sub_end = datetime.date.today() + datetime.timedelta(days=sub*30)
 
         new_customer = Customer(id, name, email, username, password)
+            
+
         new_sub = Sub(id, sub_end, sub)
 
         # Commit first because reference is needed for sub
@@ -84,7 +86,7 @@ def profile():
     username = result.username
     email = result.email
     id = result.id
-    sub = str(result.sub.period) + " month"
+    sub = str(result.sub.period) + " month(s)"
     due_date = result.sub.end
 
     return render_template('profile.html', company_name=company_name, username=username, email=email, id=id, sub=sub, due_date=due_date)

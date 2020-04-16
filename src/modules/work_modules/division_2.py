@@ -19,8 +19,8 @@ class Division(BaseModule):
     
     Raises
     ------
-    Exception
-        [description]
+    ModuleArgError
+        Raised if invalid arguments were given
     """
     module_id = 2
     def __init__(self, upper=None, lower=None):

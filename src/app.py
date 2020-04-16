@@ -26,7 +26,6 @@ template = {
   "produces": [
     "application/json"
   ],
-  "basePath": "/api",
   "tags": [
     {
       "name": "API"

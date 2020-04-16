@@ -18,6 +18,7 @@ class DatabaseError(CustomException):
     def __init__(self, message=message, status_code=500):
         super().__init__(message, status_code)
 
+
 class AuthenticationError(CustomException):
     message = "Authentication error"
     def __init__(self, message=message, status_code=401):
@@ -41,13 +42,14 @@ class ModuleArgError(CustomException):
     def __init__(self, message=message, status_code=400):
         super().__init__(message, status_code)
 
+
 class ModuleNotFound(CustomException):
     message = "Invalid module ID"
     def __init__(self, message=message, status_code=400):
         super().__init__(message, status_code)
 
 
-class SubEndError(CustomException):
-    message = "No active subscription"
-    def __init__(self, message=message, status_code=400):
+class NoResultsFound(CustomException):
+    message = "No results found"
+    def __init__(self, message=message, status_code=404):
         super().__init__(message, status_code)
