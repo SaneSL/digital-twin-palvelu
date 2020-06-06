@@ -26,9 +26,9 @@ class Addition(BaseModule):
     def _add(self):
         try:
             results = sum(self._data)
+            return {'data': results}
         except:
             raise ModuleArgError
-        return {'data': results}
 
     def _run(self):
         return self._add()
